@@ -142,4 +142,9 @@ public class HardwareComponent
       this.eanNumber = eanNumber;
    }
 
+   @Override
+   public String toString(){
+      return "name= " + this.name + " vendor= "+this.vendor;
+   }
+
 }
