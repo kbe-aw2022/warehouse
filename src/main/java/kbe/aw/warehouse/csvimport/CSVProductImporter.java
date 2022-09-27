@@ -1,12 +1,16 @@
 package kbe.aw.warehouse.csvimport;
 
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import com.opencsv.bean.CsvToBeanBuilder;
@@ -18,8 +22,7 @@ import kbe.aw.warehouse.repository.ProductRepository;
 public class CSVProductImporter
 {
    private final ProductRepository productRepository;
-
-   private static final String SAMPLE_CSV_FILE_PATH = "./src/main/resources/initial_products.csv";
+   Resource resource  = new ClassPathResource("initial_products.csv");
 
    @Autowired
    public CSVProductImporter(final ProductRepository productRepository)
@@ -29,8 +32,12 @@ public class CSVProductImporter
 
    public void importProducts() throws IOException
    {
-         List<Product> beans = new CsvToBeanBuilder(new FileReader(SAMPLE_CSV_FILE_PATH))
+      InputStream inputStream = resource.getInputStream();
+      Reader reader = new InputStreamReader(inputStream, "UTF-8");
+
+         List<Product> beans = new CsvToBeanBuilder(reader)
                .withType(Product.class).build().parse();
+
          productRepository.saveAll(beans);
    }
 

@@ -15,9 +15,7 @@ import kbe.aw.warehouse.csvimport.CSVProductImporter;
 public class StartupApplicationListener implements ApplicationListener<ContextRefreshedEvent>
 {
    private final CSVHardwareComponentImporter csvHardwareComponentImporter;
-
    private final CSVProductImporter csvProductImporter;
-
    private static final Logger LOGGER = LoggerFactory.getLogger(StartupApplicationListener.class);
 
    @Override public void onApplicationEvent(ContextRefreshedEvent event)
